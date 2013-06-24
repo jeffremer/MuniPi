@@ -1,9 +1,9 @@
 MuniPi
 ======
 
-MuniPi is a small software assembly of a Ruby socket server and Python client
+MuniPi is a small software/hardware assembly of a Ruby socket server and Python client
 daemon that displays the NextMUNI predictions for a predefined set of Muni
-routes.
+routes on a RaspberryPi using a 16x2 LCD character display.
 
 Software
 ========
