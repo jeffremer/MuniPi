@@ -4,7 +4,6 @@ require 'bundler/setup'
 require 'colored'
 require 'json'
 require 'muni'
-
 require 'socket'
 
 PORT = 4481
