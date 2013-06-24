@@ -21,3 +21,21 @@ BOM
 
 * [Raspberry Pi Model A](http://www.adafruit.com/products/1344)
 * [Adafruit 16x2 Character LCD + Keypad](http://www.adafruit.com/products/1110)
+
+Assembly Instructions
+=====================
+
+Please see the instructions for your Raspberry Pi and the character display.
+
+Usage
+=====
+
+Both the Ruby server and the Python client must be running simultaneously. The Python client requires sudo privelages to access the i2c devices required to display the countdown on the LCD character display.
+
+I recommend running the server and the client at boot, and if you put the calls to the scripts in `/etc/rc.local` they will be run as root.
+
+    $ su root
+    $ echo "(sleep 2; ruby ~/MuniPi/Server.rb)&" >> /etc/rc/local
+    $ echo "(sleep 2; python ~/MuniPi/Client.py)&" >> /etc/rc/local
+
+I recognize that there are probably a million other ways to do this, if you have a better suggestion submit a pull request.
