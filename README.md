@@ -9,7 +9,7 @@ Software
 ========
 
 MuniPi requires a few software libraries to get running. You can install the
-Ruby dependencies from the Gemfile but running `bundle install`, of course that
+Ruby dependencies from the Gemfile by running `bundle install`, of course that
 means you need [bundler](http://gembundler.com) and a version of Ruby.
 
 The Python dependencies are installable as a submodule, just run `git submodule
