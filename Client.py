@@ -27,3 +27,4 @@ while True:
 			print(strfprediction(prediction), end=" ")
 		print("")
 	time.sleep(5)
+
