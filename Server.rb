@@ -8,31 +8,33 @@ require 'socket'
 
 PORT = 4481
 
-print "🚍   " << "Welcome to MuniPi".bold.green_on_blue
-3.times {sleep 0.1; print "."; sleep 0.33; }
-print "finding routes".yellow
-3.times {sleep 0.1; print "."; sleep 0.33; }
 
-r21 = Muni::Route.find(21)
-puts
-puts "Found route: ".green << r21.title.black_on_white
-print "Starting up server".yellow
-3.times {sleep 0.1; print "."; sleep 0.33; }
-puts "server is up at: ".green << " localhost:#{PORT}".black_on_white
+begin
+  config = YAML::load_file "config.yml"  
+rescue Exception => e
+  puts("Please provide a config.yml file (see config.yml.sample)".red)
+  exit 1
+end
+
+
+print "🚍   " << "Welcome to MuniPi".bold.green_on_blue
+3.times {sleep 0.05; print "."; sleep 0.15; }
+print "serving routes".yellow << " [" << config.keys.join(',') << "]"
+3.times {sleep 0.05; print "."; sleep 0.15; }
 
 Socket.tcp_server_loop(PORT) do |connection|
   begin
-    predictions = r21.outbound.stop_at("Hayes and Laguna").predictions.map do |prediction|
-      prediction.epochTime.to_i / 1000
+    response = {}
+    config.each do |route, directions|
+      response[route] = directions.map do |direction, stop_tag|
+          Muni::Route.find(route).send(direction).stop_at(stop_tag.to_s).predictions.map do |prediction|
+            prediction.epochTime.to_i / 1000
+          end
+      end
     end
-    
-    output = {
-      r21: predictions
-    }
-    connection.write(output.to_json)
-  rescue
-    connection.write({}.to_json)
+    connection.write(response.to_json)
+  rescue Exception => e
+    puts e
   end
-
   connection.close
 end
